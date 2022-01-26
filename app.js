@@ -42,8 +42,10 @@ app.get("/about", (req, res, next) => {
 })
 
 //Post Page
-app.get("/post", (req, res, next) => {
-    res.render("./post");
+app.get("/posts/:id", async (req, res, next) => {
+    let post=await Post.findById(req.params.id);
+    
+    res.render("./post",{post});
 })
 
 // Add Post Page
