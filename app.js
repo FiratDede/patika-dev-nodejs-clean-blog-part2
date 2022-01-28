@@ -1,7 +1,11 @@
 const express = require("express");
+const methodOverride = require('method-override')
 const mongoose = require("mongoose");
 
-const Post=require("./model/Post");
+const postControllers=require("./controllers/postControllers");
+const pageControllers=require("./controllers/pageControllers");
+
+
 
 const app = express();
 
@@ -28,35 +32,26 @@ app.use(express.static("public"));
 app.use(express.urlencoded());
 app.use(express.json());
 
+app.use(methodOverride('_method', { methods: ["POST", "GET"] }));
+
 // Home Page
-app.get("/", async (req, res, next) => {
-    let posts=await Post.find({});
-    res.render("index.ejs",{
-        posts
-    });
-})
+app.get("/",pageControllers.homePageController)
 
 // About Page
-app.get("/about", (req, res, next) => {
-    res.render("./about");
-})
+app.get("/about", pageControllers.aboutPageController)
 
 //Post Page
-app.get("/posts/:id", async (req, res, next) => {
-    let post=await Post.findById(req.params.id);
-    
-    res.render("./post",{post});
-})
+app.get("/posts/:id", pageControllers.postPageController)
 
 // Add Post Page
-app.get("/add_post", async (req, res, next)  => {
-    res.render("./add_post");
-})
+app.get("/add_post", pageControllers.addPostPageController)
 
-// Handle New Post Data
-app.post("/posts",async (req,res,next)=>{
-    await Post.create(req.body);
-    res.redirect("/");
-
-})
+// Edit Post Page
+app.get("/edit_post/:id",pageControllers.editPostPageController )
+// Add New Post 
+app.post("/posts", postControllers.addNewPost)
+//Update Post
+app.put("/update_post/:id",postControllers.updatePost)
+//Delete Post
+app.delete("/delete_post/:id",postControllers.deletePost)
 
