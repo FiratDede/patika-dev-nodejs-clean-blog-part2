@@ -10,14 +10,16 @@ const pageControllers=require("./controllers/pageControllers");
 const app = express();
 
 // connect db
-mongoose.connect("mongodb://127.0.0.1:27017/cleanblog-test-db", (err) => {
+// Username ve parola kısmı <username> ve <password> yazılarak saklanmıştır.
+mongoose.connect("mongodb+srv://<username>:<password>@cluster0.9b942.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", (err) => {
     if (err) {
         throw err;
     }
     console.log("Database connection succesfull");
 })
 // Start listening
-app.listen(3000, () => {
+const port=process.env.PORT || 3000;
+app.listen(port, () => {
     console.log("Server is listening on 3000 port");
 })
 
