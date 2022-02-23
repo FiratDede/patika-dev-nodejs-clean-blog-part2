@@ -57,3 +57,6 @@ app.put("/update_post/:id",postControllers.updatePost)
 //Delete Post
 app.delete("/delete_post/:id",postControllers.deletePost)
 
+app.get("/deneme",(req,res,next)=>{
+    res.json({data:"BU bir denemedir"});
+})
